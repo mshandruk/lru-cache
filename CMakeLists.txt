@@ -13,3 +13,20 @@ add_dev_tools_targets(
         INFRA_DIR "${CMAKE_SOURCE_DIR}/external/cpp-infra"
         CHECK_DIRS "${CMAKE_SOURCE_DIR}/src" "${CMAKE_SOURCE_DIR}/include"
 )
+
+add_library(${PROJECT_NAME} STATIC
+        src/LRUCache.cpp
+)
+
+target_include_directories(${PROJECT_NAME}
+        PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:include>
+)
+
+set(SOURCES
+        src/main.cpp
+)
+
+add_executable(lru_example ${SOURCES})
+target_link_libraries(lru_example PRIVATE ${PROJECT_NAME})
