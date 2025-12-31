@@ -10,3 +10,7 @@ cmake-build-*
 .vscode/
 .idea/
 *.swp
+
+# Created from external/cpp-infra
+.clang-format
+.clang-tidy
