@@ -1,0 +1,12 @@
+# Build and bin
+bin/
+build/
+cmake-build-*
+
+# Temp dirs
+.cache
+
+# IDE and editor configs
+.vscode/
+.idea/
+*.swp
