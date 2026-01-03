@@ -17,6 +17,10 @@ std::optional<std::string> LRUCache::get(const int key) {
 }
 
 void LRUCache::put(int key, const std::string& value) {
+    if (capacity_ == 0) {
+        return;
+    }
+
     if (const auto hit = cache_.find(key); hit != cache_.end()) {
         hit->second->second = value;
         items_.splice(items_.begin(), items_, hit->second);
@@ -24,8 +28,8 @@ void LRUCache::put(int key, const std::string& value) {
     }
 
     if (cache_.size() >= capacity_) {
-        const auto& [key, _] = items_.back();
-        cache_.erase(key);
+        const auto oldestKey = items_.back().first;
+        cache_.erase(oldestKey);
         items_.pop_back();
     }
 
