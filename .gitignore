@@ -1,5 +1,6 @@
 # Build and bin
 bin/
+lib/
 build/
 cmake-build-*
 Testing/
