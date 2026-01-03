@@ -32,3 +32,11 @@ void LRUCache::put(int key, const std::string& value) {
     items_.emplace_front(key, value);
     cache_[key] = items_.begin();
 }
+
+std::size_t LRUCache::size() const noexcept {
+    return cache_.size();
+}
+
+std::size_t LRUCache::capacity() const noexcept {
+    return capacity_;
+}
