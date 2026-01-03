@@ -4,7 +4,7 @@
 #include <optional>
 #include <string>
 
-LRUCache::LRUCache(const size_t maxSize) : maxSize_{maxSize} {}
+LRUCache::LRUCache(const size_t capacity) : capacity_{capacity} {}
 
 std::optional<std::string> LRUCache::get(const int key) {
     const auto hit = cache_.find(key);
@@ -23,7 +23,7 @@ void LRUCache::put(int key, const std::string& value) {
         return;
     }
 
-    if (cache_.size() >= maxSize_) {
+    if (cache_.size() >= capacity_) {
         const auto& [key, _] = items_.back();
         cache_.erase(key);
         items_.pop_back();
