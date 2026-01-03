@@ -1,5 +1,5 @@
 # LRU cache
 
-# License
+## License
 
-MIT License
+[MIT](LICENSE) © 2026 [Maxim]
