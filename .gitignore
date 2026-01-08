@@ -1,7 +1,9 @@
 # Build and bin
 bin/
+lib/
 build/
 cmake-build-*
+Testing/
 
 # Temp dirs
 .cache
@@ -14,3 +16,4 @@ cmake-build-*
 # Created from external/cpp-infra
 .clang-format
 .clang-tidy
+.clangd

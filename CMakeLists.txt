@@ -5,28 +5,49 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/external/cpp-infra/cmake")
-include(DevTools)
-add_dev_tools_targets(
-        INFRA_DIR "${CMAKE_SOURCE_DIR}/external/cpp-infra"
-        CHECK_DIRS "${CMAKE_SOURCE_DIR}/src" "${CMAKE_SOURCE_DIR}/include"
-)
+include(DevTools OPTIONAL RESULT_VARIABLE DEVTOOLS_FOUND)
 
-add_library(${PROJECT_NAME} STATIC
-        src/LRUCache.cpp
+if (DEVTOOLS_FOUND)
+    add_dev_tools_targets(
+            INFRA_DIR "${CMAKE_SOURCE_DIR}/external/cpp-infra"
+            CHECK_DIRS "${CMAKE_SOURCE_DIR}/include" "${CMAKE_SOURCE_DIR}/tests"
+    )
+endif ()
+
+add_library(${PROJECT_NAME} INTERFACE)
+add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
+
+target_link_libraries(${PROJECT_NAME}
+        INTERFACE
+        compile_options
 )
 
 target_include_directories(${PROJECT_NAME}
-        PUBLIC
+        INTERFACE
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
 )
 
-set(SOURCES
-        src/main.cpp
-)
+option(LRU_CACHE_ENABLE_TESTS "Enable tests for LRUCache" OFF)
+option(LRU_CACHE_BUILD_EXAMPLES "Build examples for LRUCache" OFF)
 
-add_executable(lru_example ${SOURCES})
-target_link_libraries(lru_example PRIVATE ${PROJECT_NAME})
+if (DEFINED ENABLE_TESTS)
+    set(LRU_CACHE_ENABLE_TESTS ${ENABLE_TESTS} CACHE BOOL "Build tests" FORCE)
+endif ()
+
+if (DEFINED BUILD_EXAMPLES)
+    set(LRU_CACHE_BUILD_EXAMPLES ${BUILD_EXAMPLES} CACHE BOOL "Build examples" FORCE)
+endif ()
+
+
+if (LRU_CACHE_ENABLE_TESTS)
+    enable_testing()
+    include(cmake/Dependencies.cmake)
+    add_subdirectory(tests)
+endif ()
+
+if (LRU_CACHE_BUILD_EXAMPLES)
+    add_subdirectory(examples)
+endif ()
