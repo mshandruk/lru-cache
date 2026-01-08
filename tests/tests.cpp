@@ -1,10 +1,12 @@
-#include <gtest/gtest.h>
 #include <string>
 
-#include <LRUCache.h>
+#include <gtest/gtest.h>
+
+#include <lru_cache/LRUCache.h>
+using lru_cache::LRUCache;
 
 TEST(LRUCacheTest, Given_FullCache_When_PutNewItem_Then_OldestIsRemoved) {
-    LRUCache cache(2);
+    LRUCache<int, std::string> cache(2);
     cache.put(1, "one");
     cache.put(2, "two");
 
@@ -15,7 +17,7 @@ TEST(LRUCacheTest, Given_FullCache_When_PutNewItem_Then_OldestIsRemoved) {
 }
 
 TEST(LRUCacheTest, Given_DisabledCache_When_PutNewItem_Then_NotCaching) {
-    LRUCache cache(0);
+    LRUCache<int, std::string> cache(0);
 
     cache.put(1, "one");
 
@@ -24,7 +26,7 @@ TEST(LRUCacheTest, Given_DisabledCache_When_PutNewItem_Then_NotCaching) {
 }
 
 TEST(LRUCacheTest, Given_ExistItem_When_UpdateValue_Then_ReturnsUpdatedValue) {
-    LRUCache cache(2);
+    LRUCache<int, std::string> cache(2);
     cache.put(1, "one");
     cache.put(2, "two");
 
@@ -34,7 +36,7 @@ TEST(LRUCacheTest, Given_ExistItem_When_UpdateValue_Then_ReturnsUpdatedValue) {
 }
 
 TEST(LRUCacheTest, When_GetNonExistsKey_Then_ReturnsNullopt) {
-    LRUCache cache(3);
+    LRUCache<int, std::string> cache(3);
     cache.put(1, "one");
     cache.put(2, "two");
     cache.put(3, "three");
@@ -43,7 +45,7 @@ TEST(LRUCacheTest, When_GetNonExistsKey_Then_ReturnsNullopt) {
 }
 
 TEST(LRUCacheTest, When_GetOldestUsedItem_Then_RecentUsedKey) {
-    LRUCache lruCache(3);
+    LRUCache<int, std::string> lruCache(3);
     lruCache.put(1, "one");
     lruCache.put(2, "two");
     lruCache.put(3, "three");

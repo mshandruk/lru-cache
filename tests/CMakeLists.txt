@@ -5,9 +5,9 @@ add_executable(${TEST_TARGET}
 
 target_link_libraries(${TEST_TARGET}
         PRIVATE
-        LRUCache
-        gtest_main
-        gtest
+        LRUCache::LRUCache
+        GTest::gtest_main
+        GTest::gtest
 )
 
 include(GoogleTest)
