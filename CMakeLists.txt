@@ -6,14 +6,19 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/external/cpp-infra/cmake")
-include(DevTools OPTIONAL RESULT_VARIABLE DEVTOOLS_FOUND)
+if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+    set(LRU_CACHE_IS_ROOT_PROJECT ON)
+endif ()
 
-if (DEVTOOLS_FOUND)
-    add_dev_tools_targets(
-            INFRA_DIR "${CMAKE_SOURCE_DIR}/external/cpp-infra"
-            CHECK_DIRS "${CMAKE_SOURCE_DIR}/include" "${CMAKE_SOURCE_DIR}/tests"
-    )
+if (LRU_CACHE_IS_ROOT_PROJECT)
+    list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/external/cpp-infra/cmake")
+    include(DevTools OPTIONAL RESULT_VARIABLE DEVTOOLS_FOUND)
+    if (DEVTOOLS_FOUND)
+        add_dev_tools_targets(
+                INFRA_DIR "${CMAKE_CURRENT_SOURCE_DIR}/external/cpp-infra"
+                CHECK_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/include" "${CMAKE_CURRENT_SOURCE_DIR}/tests"
+        )
+    endif ()
 endif ()
 
 add_library(${PROJECT_NAME} INTERFACE)
