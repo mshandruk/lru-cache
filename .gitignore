@@ -16,3 +16,4 @@ Testing/
 # Created from external/cpp-infra
 .clang-format
 .clang-tidy
+.clangd
