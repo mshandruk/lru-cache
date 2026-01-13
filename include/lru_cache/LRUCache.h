@@ -49,8 +49,8 @@ void LRUCache<Key, Value>::put(const Key& key, Value value) {
     }
 
     if (cache_.size() >= capacity_) {
-        const auto oldestKey = items_.back().first;
-        cache_.erase(oldestKey);
+        const auto& lastItem = items_.back();
+        cache_.erase(lastItem.first);
         items_.pop_back();
     }
 
